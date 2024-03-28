@@ -22,10 +22,10 @@ class TransactionController extends Controller
         if ($transaction->isEmpty()) {
             return response()->json(
                 [
-                    'message' => 'Empty transaction',
+                    'message' => 'Transaction not available',
                 ],
                 200,
-            )->header('Content-Type', 'application/json');
+            );
         }
 
         return response()->json(
@@ -34,7 +34,7 @@ class TransactionController extends Controller
                 'data' => $transaction,
             ],
             200,
-        )->header("Content-Type", "application/json");
+        );
     }
 
     /**
@@ -53,7 +53,7 @@ class TransactionController extends Controller
 
         if ($validator->fails()) {
             # code...
-            return response()->json($validator->errors(), 422)->header("Content-Type", "application/json");
+            return response()->json($validator->errors(), 422);
         }
 
         try {
@@ -61,7 +61,7 @@ class TransactionController extends Controller
             return response()->json([
                 "message" => "Transaction successfully created",
                 "data" => $transaction
-            ], 201)->header("Content-Type", "application/json");
+            ], 201);
         } catch (QueryException $e) {
             return response()->json([
                 'message' => "Failed " . $e->errorInfo
@@ -82,11 +82,11 @@ class TransactionController extends Controller
             return response()->json([
                 'message' => 'Detail transaction',
                 'data' => $transaction,
-            ], 200)->header("Content-Type", "application/json");
+            ], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Transaction not found'
-            ], 404)->header("Content-Type", "application/json");
+            ], 404);
         }
     }
 
@@ -105,7 +105,7 @@ class TransactionController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Transaction not found'
-            ], 404)->header("Content-Type", "application/json");
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -116,7 +116,7 @@ class TransactionController extends Controller
 
         if ($validator->fails()) {
             # code...
-            return response()->json($validator->errors(), 422)->header("Content-Type", "application/json");
+            return response()->json($validator->errors(), 422);
         }
 
         try {
@@ -124,11 +124,11 @@ class TransactionController extends Controller
             return response()->json([
                 "message" => "Transaction successfully updated",
                 "data" => $transaction
-            ], 200)->header("Content-Type", "application/json");
+            ], 200);
         } catch (QueryException $e) {
             return response()->json([
                 'message' => "Failed " . $e->errorInfo
-            ])->header("Content-Type", "application/json");
+            ]);
         }
     }
 
@@ -146,11 +146,11 @@ class TransactionController extends Controller
 
             return response()->json([
                 'message' => "Successfully deleted transaction with ID $id"
-            ], 200)->header("Content-Type", "application/json");
+            ], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'error' => "Transaction with ID $id not found"
-            ], 404)->header("Content-Type", "application/json");
+            ], 404);
         }
     }
 }
